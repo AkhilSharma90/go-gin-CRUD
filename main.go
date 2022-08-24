@@ -1,8 +1,8 @@
 package main
 
 import (
-	"gin-crud/handlers"
-	"gin-crud/services"
+	"github.com/AkhilSharma90/go-gin-CRUD/handlers"
+	"github.com/AkhilSharma90/go-gin-CRUD/services"
 )
 
 func main() {

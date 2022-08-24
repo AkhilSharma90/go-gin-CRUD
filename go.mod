@@ -1,4 +1,4 @@
-module gin-crud
+module github.com/AkhilSharma90/go-gin-CRUD
 
 go 1.18
 

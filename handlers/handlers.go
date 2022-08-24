@@ -3,8 +3,8 @@ package handlers
 import (
 	"net/http"
 
-	"gin-crud/domain"
-	"gin-crud/services"
+	"github.com/AkhilSharma90/go-gin-CRUD/domain"
+	"github.com/AkhilSharma90/go-gin-CRUD/services"
 
 	"github.com/gin-gonic/gin"
 )
