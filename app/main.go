@@ -9,5 +9,5 @@ func main() {
 	services := services.NewServices()
 	router := handlers.NewRouter(services)
 
-	router.Run(":8080")
+	router.Run(":5000")
 }
