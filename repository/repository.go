@@ -3,7 +3,7 @@ package repository
 import (
 	"errors"
 
-	"github.com/AkhilSharma90/go-gin-CRUD/domain"
+	"go-gin-CRUD/domain"
 )
 
 type Repository struct {

@@ -1,8 +1,8 @@
 package services
 
 import (
-	"github.com/AkhilSharma90/go-gin-CRUD/domain"
-	"github.com/AkhilSharma90/go-gin-CRUD/repository"
+	"go-gin-CRUD/domain"
+	"go-gin-CRUD/repository"
 
 	"github.com/google/uuid"
 )
