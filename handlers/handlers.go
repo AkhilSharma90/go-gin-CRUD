@@ -19,7 +19,11 @@ type Response struct {
 }
 
 func NewRouter(platform *services.Services) *gin.Engine {
-	router := gin.Default()
+	gin.SetMode(gin.DebugMode)
+	router := gin.New()
+	router.Use(gin.Logger())
+	router.SetTrustedProxies(nil)
+	//router := gin.Default()
 
 	h := Handlers{Platform: platform}
 
