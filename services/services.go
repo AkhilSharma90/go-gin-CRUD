@@ -35,3 +35,11 @@ func (s *Services) CreateBook(book domain.Book) (domain.Book, int, error) {
 
 	return book, 201, nil
 }
+
+func (s *Services) UpdateBook(book domain.Book) (domain.Book, error) {
+	if err := s.Repository.UpdateBook(book); err != nil {
+		return domain.Book{}, err
+	}
+
+	return book, nil
+}

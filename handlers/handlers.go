@@ -27,6 +27,7 @@ func NewRouter(platform *services.Services) *gin.Engine {
 	book.GET("/", h.GetAllBooks)
 	book.GET("/:id", h.GetBook)
 	book.POST("/", h.CreateBook)
+	book.PUT("/:id", h.UpdateBook)
 	router.GET("/", h.HelloWorld)
 	return router
 }
@@ -87,6 +88,35 @@ func (h *Handlers) CreateBook(ctx *gin.Context) {
 		response.Data = err.Error()
 		response.Status = code
 		ctx.JSON(code, response)
+		return
+	}
+
+	response.Data = book
+	response.Status = http.StatusOK
+
+	ctx.JSON(http.StatusOK, response)
+}
+
+func (h *Handlers) UpdateBook(ctx *gin.Context) {
+	var response Response
+	var request domain.Book
+	ctx.Header("Content-Type", "application/json")
+	id := ctx.Param("id")
+
+	if err := ctx.BindJSON(&request); err != nil {
+		response.Data = err.Error()
+		response.Status = http.StatusBadRequest
+		ctx.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	request.ID = id
+
+	book, err := h.Platform.UpdateBook(request)
+	if err != nil {
+		response.Data = err.Error()
+		response.Status = http.StatusInternalServerError
+		ctx.JSON(http.StatusInternalServerError, response)
 		return
 	}
 
