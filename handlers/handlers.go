@@ -22,11 +22,29 @@ func NewRouter(platform *services.Services) *gin.Engine {
 	router.Use(gin.Logger())
 	router.SetTrustedProxies(nil)
 	h := Handlers{Platform: platform}
-
+	book := router.Group("/book")
+	book.GET("/", h.GetAllBooks)
 	router.GET("/", h.HelloWorld)
 	return router
 }
 
 func (h *Handlers) HelloWorld(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, "Hello World!")
+}
+
+func (h *Handlers) GetAllBooks(ctx *gin.Context) {
+	var response Response
+
+	books, err := h.Platform.GetAllBooks()
+	if err != nil {
+		response.Data = err.Error()
+		response.Status = http.StatusInternalServerError
+		ctx.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	response.Data = books
+	response.Status = http.StatusOK
+
+	ctx.JSON(http.StatusOK, response)
 }

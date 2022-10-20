@@ -1,6 +1,7 @@
 package services
 
 import (
+	"go-gin-CRUD/domain"
 	"go-gin-CRUD/repository"
 )
 
@@ -12,4 +13,8 @@ func NewServices() *Services {
 	return &Services{
 		Repository: repository.NewRepository(),
 	}
+}
+
+func (s *Services) GetAllBooks() ([]domain.Book, error) {
+	return s.Repository.GetAllBooks()
 }

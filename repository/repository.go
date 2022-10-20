@@ -20,3 +20,13 @@ func NewRepository() *Repository {
 		DB: map[string]domain.Book{example.ID: example},
 	}
 }
+
+func (repo *Repository) GetAllBooks() ([]domain.Book, error) {
+	var books []domain.Book
+
+	for _, book := range repo.DB {
+		books = append(books, book)
+	}
+
+	return books, nil
+}
