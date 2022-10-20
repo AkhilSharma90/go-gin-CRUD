@@ -59,3 +59,13 @@ func (repo *Repository) UpdateBook(book domain.Book) error {
 
 	return nil
 }
+
+func (repo *Repository) DeleteBook(id string) error {
+	if _, exist := repo.DB[id]; !exist {
+		return errors.New("not found")
+	}
+
+	delete(repo.DB, id)
+
+	return nil
+}

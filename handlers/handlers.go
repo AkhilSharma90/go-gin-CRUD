@@ -28,6 +28,7 @@ func NewRouter(platform *services.Services) *gin.Engine {
 	book.GET("/:id", h.GetBook)
 	book.POST("/", h.CreateBook)
 	book.PUT("/:id", h.UpdateBook)
+	book.DELETE("/:id", h.DeleteBook)
 	router.GET("/", h.HelloWorld)
 	return router
 }
@@ -121,6 +122,23 @@ func (h *Handlers) UpdateBook(ctx *gin.Context) {
 	}
 
 	response.Data = book
+	response.Status = http.StatusOK
+
+	ctx.JSON(http.StatusOK, response)
+}
+
+func (h *Handlers) DeleteBook(ctx *gin.Context) {
+	var response Response
+	id := ctx.Param("id")
+
+	if err := h.Platform.DeleteBook(id); err != nil {
+		response.Data = err.Error()
+		response.Status = http.StatusInternalServerError
+		ctx.JSON(http.StatusInternalServerError, response)
+		return
+	}
+
+	response.Data = nil
 	response.Status = http.StatusOK
 
 	ctx.JSON(http.StatusOK, response)

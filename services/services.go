@@ -43,3 +43,11 @@ func (s *Services) UpdateBook(book domain.Book) (domain.Book, error) {
 
 	return book, nil
 }
+
+func (s *Services) DeleteBook(id string) error {
+	if err := s.Repository.DeleteBook(id); err != nil {
+		return err
+	}
+
+	return nil
+}
