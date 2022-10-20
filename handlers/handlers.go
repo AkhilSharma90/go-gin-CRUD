@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"go-gin-CRUD/domain"
 	"go-gin-CRUD/services"
 	"net/http"
 
@@ -25,6 +26,7 @@ func NewRouter(platform *services.Services) *gin.Engine {
 	book := router.Group("/book")
 	book.GET("/", h.GetAllBooks)
 	book.GET("/:id", h.GetBook)
+	book.POST("/", h.CreateBook)
 	router.GET("/", h.HelloWorld)
 	return router
 }
@@ -59,6 +61,32 @@ func (h *Handlers) GetBook(ctx *gin.Context) {
 		response.Data = err.Error()
 		response.Status = http.StatusInternalServerError
 		ctx.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	response.Data = book
+	response.Status = http.StatusOK
+
+	ctx.JSON(http.StatusOK, response)
+}
+
+func (h *Handlers) CreateBook(ctx *gin.Context) {
+	var response Response
+	var request domain.Book
+	ctx.Header("Content-Type", "application/json")
+
+	if err := ctx.BindJSON(&request); err != nil {
+		response.Data = err.Error()
+		response.Status = http.StatusBadRequest
+		ctx.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	book, code, err := h.Platform.CreateBook(request)
+	if err != nil {
+		response.Data = err.Error()
+		response.Status = code
+		ctx.JSON(code, response)
 		return
 	}
 

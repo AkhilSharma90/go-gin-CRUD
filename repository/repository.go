@@ -39,3 +39,13 @@ func (repo *Repository) GetBook(id string) (domain.Book, error) {
 
 	return domain.Book{}, errors.New("not found")
 }
+
+func (repo *Repository) CreateBook(book domain.Book) (domain.Book, error) {
+	if _, exist := repo.DB[book.ID]; exist {
+		return domain.Book{}, errors.New("already exist")
+	}
+
+	repo.DB[book.ID] = book
+
+	return book, nil
+}
