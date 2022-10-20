@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"errors"
 	"go-gin-CRUD/domain"
 )
 
@@ -29,4 +30,12 @@ func (repo *Repository) GetAllBooks() ([]domain.Book, error) {
 	}
 
 	return books, nil
+}
+
+func (repo *Repository) GetBook(id string) (domain.Book, error) {
+	if book, exist := repo.DB[id]; exist {
+		return book, nil
+	}
+
+	return domain.Book{}, errors.New("not found")
 }

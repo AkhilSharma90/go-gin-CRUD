@@ -18,3 +18,7 @@ func NewServices() *Services {
 func (s *Services) GetAllBooks() ([]domain.Book, error) {
 	return s.Repository.GetAllBooks()
 }
+
+func (s *Services) GetBook(id string) (domain.Book, error) {
+	return s.Repository.GetBook(id)
+}

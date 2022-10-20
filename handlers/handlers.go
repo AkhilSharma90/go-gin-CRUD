@@ -24,6 +24,7 @@ func NewRouter(platform *services.Services) *gin.Engine {
 	h := Handlers{Platform: platform}
 	book := router.Group("/book")
 	book.GET("/", h.GetAllBooks)
+	book.GET("/:id", h.GetBook)
 	router.GET("/", h.HelloWorld)
 	return router
 }
@@ -44,6 +45,24 @@ func (h *Handlers) GetAllBooks(ctx *gin.Context) {
 	}
 
 	response.Data = books
+	response.Status = http.StatusOK
+
+	ctx.JSON(http.StatusOK, response)
+}
+
+func (h *Handlers) GetBook(ctx *gin.Context) {
+	var response Response
+	id := ctx.Param("id")
+
+	book, err := h.Platform.GetBook(id)
+	if err != nil {
+		response.Data = err.Error()
+		response.Status = http.StatusInternalServerError
+		ctx.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	response.Data = book
 	response.Status = http.StatusOK
 
 	ctx.JSON(http.StatusOK, response)
